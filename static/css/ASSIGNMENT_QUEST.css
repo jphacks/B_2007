@@ -28,7 +28,7 @@ body{
   font-weight:bold;
 }
 .contents{
-  background-image:url(bg_natural_mori.jpg);
+  background-image:url(static/image/bg_natural_mori.jpg);
   height:900px;
   background-size:cover ;
   width:1200px;
@@ -92,7 +92,7 @@ body{
 .footer{
   margin-top: ;
   text-align:center;
-  background-image:url(board.png);
+  background-image:url(static/image/board.png);
   background-size: cover;
 }
 .footer-contents{
