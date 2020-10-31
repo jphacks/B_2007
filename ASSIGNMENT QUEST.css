@@ -1,0 +1,107 @@
+body{
+  background-color:rgb(123, 191, 193);
+  background-image: url(sky.jpg);
+  background-size: cover;
+}
+.header-contents{
+  background-size:cover;
+  margin:0px;
+}
+.header-contents h1{
+  font-size:50px;
+  color:rgb(255, 255, 255);
+  padding:10px;
+  text-align: center;
+  margin-top: 0px;
+  display: block;
+}
+.logo{
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.header-contents p{
+  color:rgb(13, 107, 30);
+  text-align: center;
+  font-size:30px ;
+  opacity:0.7;
+  font-weight:bold;
+}
+.contents{
+  background-image:url(bg_natural_mori.jpg);
+  height:900px;
+  background-size:cover ;
+  width:1200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.date{
+  color:rgb(130, 160, 232);
+  padding:50px;
+  font-size:50px;
+}
+
+.map {
+  text-align:right;
+  list-style: none;
+  color:rgb(255, 255, 255);
+  padding: 10px;
+  display:block;
+  font-size: 20px;
+  font-weight:bold;
+
+}
+.battle{
+  text-align:right;
+  list-style: none;
+  color:rgb(255, 255, 255);
+  padding: 10px;
+  display:block;
+  font-size: 20px;
+  font-weight:bold;
+}
+.monster{
+  text-align:right;
+  list-style: none;
+  color:rgb(255, 255, 255);
+  padding: 10px;
+  display:block;
+  font-size: 20px;
+  font-weight:bold;
+}
+
+
+
+.image{
+
+}
+.yuusya{
+  float: left;
+}
+.assignment h1{
+  margin-left: 420px;
+  color:rgb(255, 255, 255);
+  font-size: 40px;
+}
+.monster-image{
+
+  text-align: center;
+  margin-bottom: 100px;
+}
+.footer{
+  margin-top: ;
+  text-align:center;
+  background-image:url(board.png);
+  background-size: cover;
+}
+.footer-contents{
+  padding-top: 400px;
+  padding-bottom: 200px;
+  color:rgb(130, 160, 232);
+  font-weight:bold;
+}
+.footer-contents h1{
+  font-size: 50px;
+  font-weight: bold;
+}
