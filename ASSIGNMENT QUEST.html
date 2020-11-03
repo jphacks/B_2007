@@ -4,34 +4,54 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="ASSIGNMENT QUEST.css">
     <title>ASSIGNMENT QUEST</title>
+
   </head>
   <body>
     <div class="header">
       <div class="header-contents">
         <h1></h1>
         <img src="logo3.jpg" alt="" class="logo">
-        <p>現在出ている課題です</p>
+        <p>モンスターとなった課題を蹴散らせ！！！</p>
       </div>
     </div>
     <div class="contents">
-      <h1 class="date">10/31</h1>
+      <div class="date" id="target">
+        <script>
+          //今日の日付データを変数に格納//変数は"today"とする
+          var today=new Date();
 
+          //年・月・日・曜日を取得
+          var year = today.getFullYear();
+          var month = today.getMonth()+1;
+          var week = today.getDay();
+          var day = today.getDate();
+
+          var week_ja= new Array("日","月","火","水","木","金","土");
+
+          //年・月・日・曜日を書き出す
+          document.write(year+"年"+month+"月"+day+"日 "+week_ja[week]+"曜日");
+          const script = document.getElementById('target');
+          script.classList.add('date');
+        </script>
+      </div>
         <div class="image">
-          <div class="user">
-            <img src="yuusya2.png" alt="" class="yuusya">
+
+          <div class="assignment yuusya">
+            <img src="yuusya2.png" alt="" class="monster-image">
           </div>
+
           <div class="assignment">
           <p>assignment-name</p>
           <p>date</p>
             <img src="dragon.png" alt="" class="monster-image">
-
           </div>
+
           <div class="assignment">
           <p>assignment-name</p>
           <p>date</p>
             <img src="slime.png" alt="" class="monster-image">
-
           </div>
+
           <div class="assignment">
             <p>assignment-name</p>
             <p>date</p>
@@ -44,10 +64,10 @@
       <div class="footer-contents">
         <h1>新しい課題</h1>
         <p>課題タイトル</p>
-        <input type="text" name="" value="">
-        <p>課題内容</p>
-        <textarea name="new-assignment" rows="5" cols="50"></textarea>
-        <input type="submit" name="" value="登録">
+        <input type="text" name="課題タイトル" value="">
+        <p>締め切り</p>
+        <input type="date" name="締め切り">
+        <input type="submit" name="課題内容" value="登録">
       </div>
     </div>
   </body>
