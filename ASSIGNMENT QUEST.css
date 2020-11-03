@@ -27,11 +27,15 @@ body{
   opacity:0.7;
   font-weight:bold;
 }
+
+
+
+
 .contents{
   background-image:url(bg_natural_mori.jpg);
   height:900px;
   background-size:cover ;
-  width:1200px;
+  width:1500px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -42,53 +46,30 @@ body{
   font-size:50px;
 }
 
-.map {
-  text-align:right;
-  list-style: none;
-  color:rgb(255, 255, 255);
-  padding: 10px;
-  display:block;
-  font-size: 20px;
-  font-weight:bold;
-
-}
-.battle{
-  text-align:right;
-  list-style: none;
-  color:rgb(255, 255, 255);
-  padding: 10px;
-  display:block;
-  font-size: 20px;
-  font-weight:bold;
-}
-.monster{
-  text-align:right;
-  list-style: none;
-  color:rgb(255, 255, 255);
-  padding: 10px;
-  display:block;
-  font-size: 20px;
-  font-weight:bold;
-}
-
-
-
 .image{
 
 }
 .yuusya{
   float: left;
+  height:300px
 }
-.assignment h1{
-  margin-left: 420px;
-  color:rgb(255, 255, 255);
-  font-size: 40px;
-}
-.monster-image{
 
+.monster-image{
+  margin: 20px;
   text-align: center;
-  margin-bottom: 100px;
+
+  height:200px;
+  weight:10px;
+
 }
+.assignment{
+ display:inline-block;
+}
+.assignment p{
+  text-align: center;
+}
+
+
 .footer{
   margin-top: ;
   text-align:center;
