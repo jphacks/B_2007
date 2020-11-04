@@ -1,6 +1,7 @@
 # サンプル（プロダクト名）
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2020/09/JPHACKS2020_ogp.jpg)](https://www.youtube.com/watch?v=G5rULR53uMk)
+![2020-11-04 (2)](https://user-images.githubusercontent.com/72476251/98077146-0235ed80-1eb3-11eb-9499-41f202e8ade8.png)
+
 
 ## 製品概要
 ### 背景(製品開発のきっかけ、課題等）
