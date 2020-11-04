@@ -33,43 +33,49 @@
           script.classList.add('date');
         </script>
       </div>
-        <div class="image">
+      <div class="image">
 
           <div class="assignment yuusya">
             <img src="yuusya2.png" alt="" class="monster-image">
           </div>
 
-          <div class="assignment">
-          <p>assignment-name</p>
-          <p>date</p>
-            <img src="dragon.png" alt="" class="monster-image">
-          </div>
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="dragon.png" name="{}" value="finished">
+            </div>
+          </form>
 
-          <div class="assignment">
-          <p>assignment-name</p>
-          <p>date</p>
-            <img src="slime.png" alt="" class="monster-image">
-          </div>
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="slime.png" name="{}" value="finished">
+            </div>
+          </form>
 
-          <div class="assignment">
-            <p>assignment-name</p>
-            <p>date</p>
-            <img src="goblin.png" alt="" class="monster-image">
-          </div>
-        </div>
-      </div>
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="goblin.png" name="{}" value="finished">
+            </div>
+          </form>
+
     </div>
-    <div class="new-assignment">
-      <div class="new-assignment-contents">
-        <h1>新しい課題</h1>
-        <p>課題タイトル</p>
-        <input type="text" name="課題タイトル" value="">
-        <p>締め切り</p>
-        <input type="date" name="締め切り">
-        <input type="submit" name="課題内容" value="登録">
-      </div>
-     </div>
-
+    <form action="" method="post">
+      <div class="new-assignment">
+        <div class="new-assignment-contents">
+          <h1>新しい課題</h1>
+          <p>課題タイトル</p>
+          <input type="text" name="課題タイトル" value="">
+          <p>締め切り</p>
+          <input type="date" name="締め切り">
+          <input type="submit" name="課題内容" value="登録">
+        </div>
+       </div>
+    </form>
 
     <div class="finished-assignment">
       <h1>倒したモンスター達</h1>
