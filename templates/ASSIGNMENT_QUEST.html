@@ -2,47 +2,92 @@
 <html lang="ja" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="static/css/ASSIGNMENT_QUEST.css">
+    <link rel="stylesheet" href="ASSIGNMENT QUEST.css">
     <title>ASSIGNMENT QUEST</title>
+
   </head>
   <body>
     <div class="header">
       <div class="header-contents">
-        <h1></h1>
-        <img src="static/image/logo3.jpg" alt="" class="logo">
-        <p>現在出ている課題です</p>
-
+        <img src="ASSIGNMENT QUEST　logo.jpg" alt="" class="logo">
+        <p>モンスターとなった課題を蹴散らせ！！！</p>
       </div>
-
     </div>
     <div class="contents">
-      <h1 class="date">10/31</h1>
-      <div class="menu">
-        <ul>
-          <li class="map">マップ</li>
-          <li class="battle">バトル</li>
-          <li class="monster">モンスター</li>
-        </ul>
-        <div class="image">
-          <div class="user">
-            <img src="static/image/yuusya2.png" alt="" class="yuusya">
-          </div>
-          <div class="assignment">
-            <h1>農業工学レポート LV42</h1>
+      <div class="date" id="target">
+        <script>
+          //今日の日付データを変数に格納//変数は"today"とする
+          var today=new Date();
 
-            <img src="static/image/dragon.png" alt="" class="monster-image" width="500" height="400">
-          </div>
-        </div>
+          //年・月・日・曜日を取得
+          var year = today.getFullYear();
+          var month = today.getMonth()+1;
+          var week = today.getDay();
+          var day = today.getDate();
+
+          var week_ja= new Array("日","月","火","水","木","金","土");
+
+          //年・月・日・曜日を書き出す
+          document.write(year+"年"+month+"月"+day+"日 "+week_ja[week]+"曜日");
+          const script = document.getElementById('target');
+          script.classList.add('date');
+        </script>
       </div>
+      <div class="image">
+
+          <div class="assignment yuusya">
+            <img src="yuusya2.png" alt="" class="monster-image">
+          </div>
+
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="dragon.png" name="{}" value="finished">
+            </div>
+          </form>
+
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="slime.png" name="{}" value="finished">
+            </div>
+          </form>
+
+          <form action="" method="post" >
+            <div class="assignment">
+              <p>{assignment-title}</p>
+              <p>{date}</p>
+              <input type="image" class="monster-image" src="goblin.png" name="{}" value="finished">
+            </div>
+          </form>
+
     </div>
-    <div class="footer">
-      <div class="footer-contents">
-        <h1>新しい課題</h1>
-        <p>課題タイトル</p>
-        <input type="text" name="" value="">
-        <p>課題内容</p>
-        <textarea name="new-assignment" rows="5" cols="50"></textarea>
-        <input type="submit" name="" value="登録">
+    <form action="" method="post">
+      <div class="new-assignment">
+        <div class="new-assignment-contents">
+          <h1>新しい課題</h1>
+          <p>課題タイトル</p>
+          <input type="text" name="課題タイトル" value="">
+          <p>締め切り</p>
+          <input type="date" name="締め切り">
+          <input type="submit" name="課題内容" value="登録">
+        </div>
+       </div>
+    </form>
+
+    <div class="finished-assignment">
+      <h1>倒したモンスター達</h1>
+      <div class="assignment">
+        <p>assignment-name</p>
+        <p>date</p>
+        <img src="golem.png" alt="" class="monster-image">
+      </div>
+      <div class="assignment">
+        <p>assignment-name</p>
+        <p>date</p>
+        <img src="orc.png" alt="" class="monster-image">
       </div>
     </div>
   </body>
