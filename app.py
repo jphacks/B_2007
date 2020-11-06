@@ -101,8 +101,9 @@ def register():
         newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
-        if request.form['tweet'] == True:
+        """if request.form['tweet'] == True:
             api.update_with_media("{}.jpg".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
+"""
         return redirect('/')
     else:
         return render_template('login-error.html')
