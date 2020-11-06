@@ -41,9 +41,9 @@
           {% for assignment in unfinished %}
           <form action="/finished" method="post" >
             <div class="assignment">
-              <p>{assignment.title}</p>
+              <p>{{assignment.title}}</p>
               <!-- if エラー出たらdataの方を({})にする-->
-              <p>{assignment.due_date}</p>
+              <p>{{assignment.due_date}}</p>
               <input type="image" class="monster-image" src="static/image/{assignment.monster_id}.png" name="{}" value="finished">
             </div>
           </form>
@@ -77,8 +77,8 @@
       <h1>倒したモンスター達</h1>
       {% for ok in finished %}
       <div class="assignment">
-        <p>{ok.title}</p>
-        <p>{ok.due_date}</p>
+        <p>{{ok.title}}</p>
+        <p>{{ok.due_date}}</p>
         <img src="static/image/{ok.monster_id}.png" alt="" class="monster-image">
       </div>
       {% endfor %}
