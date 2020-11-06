@@ -11,6 +11,8 @@ from urllib.parse import parse_qsl
 
 from random import randint, seed
 
+from sqlalchemy import desc
+
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
 
@@ -37,6 +39,7 @@ def index():
     if not name:
         return redirect('twitter_auth')
     user_id = api.me().id
+
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_data).limit(3)
     finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_data)).limit(4)
     return render_template('ASSIGNMENT_QUEST.html', name=name, assignments=assignments, unfinished=unfinished, finished=finished)
