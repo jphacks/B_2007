@@ -2,14 +2,14 @@
 <html lang="ja" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="ASSIGNMENT QUEST.css">
+    <link rel="stylesheet" href="static/css/ASSIGNMENT_QUEST.css">
     <title>ASSIGNMENT QUEST</title>
 
   </head>
   <body>
     <div class="header">
       <div class="header-contents">
-        <img src="ASSIGNMENT QUEST　logo.jpg" alt="" class="logo">
+        <img src="static/image/ASSIGNMENT_QUEST_logo.jpg" alt="" class="logo">
         <p>モンスターとなった課題を蹴散らせ！！！</p>
       </div>
     </div>
@@ -36,59 +36,46 @@
       <div class="image">
 
           <div class="assignment yuusya">
-            <img src="yuusya2.png" alt="" class="monster-image">
+            <img src="static/image/yuusya2.png" alt="" class="monster-image">
           </div>
-
-          <form action="" method="post" >
+          {% for assignment in unfinished %}
+          <form action="/finished" method="post" >
             <div class="assignment">
-              <p>{assignment-title}</p>
-              <p>{date}</p>
-              <input type="image" class="monster-image" src="dragon.png" name="{}" value="finished">
+              <p>{assignment.title}</p>
+              <!-- if エラー出たらdataの方を({})にする-->
+              <p>{assignment.due_date}</p>
+              <input type="image" class="monster-image" src="static/image/{assignment.monster_id}.png" name="{}" value="finished">
             </div>
           </form>
-
-          <form action="" method="post" >
-            <div class="assignment">
-              <p>{assignment-title}</p>
-              <p>{date}</p>
-              <input type="image" class="monster-image" src="slime.png" name="{}" value="finished">
-            </div>
-          </form>
-
-          <form action="" method="post" >
-            <div class="assignment">
-              <p>{assignment-title}</p>
-              <p>{date}</p>
-              <input type="image" class="monster-image" src="goblin.png" name="{}" value="finished">
-            </div>
-          </form>
+          {% endfor %}
 
     </div>
-    <form action="" method="post">
+    <form action="/register" method="post">
       <div class="new-assignment">
         <div class="new-assignment-contents">
           <h1>新しい課題</h1>
           <p>課題タイトル</p>
-          <input type="text" name="課題タイトル" value="">
+          <input type="text" name="課題タイトル" value="title">
           <p>締め切り</p>
-          <input type="date" name="締め切り">
+          <input type="date" name="締め切り" value="due_date">
+          <p>Twitterでつぶやきますか</p>
+          <input type="checkbox" name="tweet" value="tweet">
           <input type="submit" name="課題内容" value="登録">
+
+
         </div>
        </div>
     </form>
 
     <div class="finished-assignment">
       <h1>倒したモンスター達</h1>
+      {% for ok in finished %}
       <div class="assignment">
-        <p>assignment-name</p>
-        <p>date</p>
-        <img src="golem.png" alt="" class="monster-image">
+        <p>{ok.title}</p>
+        <p>{ok.due_date}</p>
+        <img src="static/image/{ok.monster_id}.png" alt="" class="monster-image">
       </div>
-      <div class="assignment">
-        <p>assignment-name</p>
-        <p>date</p>
-        <img src="orc.png" alt="" class="monster-image">
-      </div>
+      {% endfor %}
     </div>
   </body>
 </html>

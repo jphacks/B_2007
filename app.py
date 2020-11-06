@@ -15,11 +15,11 @@ app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 AT = os.environ['ACCESS_TOKEN']
-AS = os.environ['ACCESS_TOKEN_SECRE']
+AS = os.environ['ACCESS_TOKEN_SECRET']
 auth = tweepy.OAuthHandler(AT, AS)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:パスワード@localhost/task"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 
 class Assignment(db.Model):
@@ -37,15 +37,9 @@ def index():
     if not name:
         return redirect('twitter_auth')
     user_id = api.me().id
-    unfinished = session.query(Assigment).filter(Assigment.is_finished==False, Assigment.user_id==user_id).order_by(Assigment.due_data).limit(3)
-    finished =　sesscion.query(Assigment).filter(Assigment.is_finished==True,Assigment.user_id==user_id).order_by(desc(Assigment.due_data)).limit(4)
-    """
-    unfinishedの出力
-    print([result.title for result in unfinished]) 出力はfor文使わんばエラーが出た気がする。
-    finishedの出力
-    print([result.is_finished for result in limit])
-    """
-    return render_template('index.html', name=name, assignments=assignments)
+    unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_data).limit(3)
+    finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_data)).limit(4)
+    return render_template('ASSIGNMENT_QUEST.html', name=name, assignments=assignments, unfinished=unfinished, finished=finished)
 
 @app.route('/twitter_auth', methods=['GET'])
 def twitter_auth():
@@ -67,9 +61,9 @@ def callback():
         token = request.values.get('oauth_token', '')
         verifier = request.values.get('oauth_verifier', '')
         #flash('認証に成功しました。')
-        return render_template("index.html", token=token, verifier=verifier)
+        return render_template("ASSIGNMENT_QUEST.html", token=token, verifier=verifier)
     except:
-        return render_template("error.html")
+        return render_template("login-error.html")
 
 
 @app.route('/register', methods=['POST'])
@@ -90,7 +84,7 @@ def register():
             api.update_with_media("{}.jpg".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
         return redirect('/')
     else:
-        return render_template('error.html')
+        return render_template('login-error.html')
 
 @app.route('/finished', methods=['POST'])
     api = api_get()

@@ -1,0 +1,9 @@
+.text h1{
+  text-align:center;
+  padding:20px;
+  color:rgb(175, 46, 46);
+  font-size:100px;
+}
+body{
+  background-image:url(sky.jpg);
+}
