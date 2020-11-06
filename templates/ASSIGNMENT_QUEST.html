@@ -44,7 +44,7 @@
               <p>{{assignment.title}}</p>
               <!-- if エラー出たらdataの方を({})にする-->
               <p>{{assignment.due_date}}</p>
-              <input type="image" class="monster-image" src="static/image/{{assignment.monster_id}}.png" name="{}" value="finished">
+              <input type="image" class="monster-image" src="static/image/{{assignment.monster_id}}.png" name="{{assignment.id}}" value="finished">
             </div>
           </form>
           {% endfor %}
