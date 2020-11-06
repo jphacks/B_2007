@@ -41,7 +41,10 @@ body{
   display: flex;
   align-items: flex-start;
 }
-
+.yuusya h1{
+  color:rgb(130, 160, 232);
+  text-align: center;
+}
 .monster-image{
   margin: 20px;
   height:300px;
@@ -60,9 +63,6 @@ body{
 .image form{
   display:inline-block;
 }
-
-
-
 
 .new-assignment{
   margin-top: ;
