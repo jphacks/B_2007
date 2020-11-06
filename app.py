@@ -91,6 +91,7 @@ def register():
         return render_template('login-error.html')
 
 @app.route('/finished', methods=['POST'])
+def finished():
     api = api_get()
     if request.form['id']:
         assignment = Assignment.query.filter_by(id=request.form["id"]).first()
