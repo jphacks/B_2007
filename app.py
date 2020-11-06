@@ -35,9 +35,9 @@ class Assignment(db.Model):
 @app.route('/')
 def index():
     api = api_get()
-    name =  api.me().name
-    if not name:
+    if not api:
         return redirect('twitter_auth')
+    name =  api.me().name
     user_id = api.me().id
 
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
