@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request
-from models.models import OnegaiContent
+from models.models import TaskContent
 from models.database import db_session
 from datetime import datetime
 
@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/index")
 def index():
     name = request.args.get("name")
-    all_task = OnegaiContent.query.all()
+    all_task = TaskContent.query.all()
     return render_template("index.html",name=name,all_task=all_task)
 
 @app.route("/index",methods=["post"])

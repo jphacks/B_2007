@@ -9,6 +9,7 @@ import logging
 from requests_oauthlib import OAuth1Session
 from urllib.parse import parse_qsl
 
+from random import randint, seed
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -25,16 +26,25 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
     user_id = db.Column(db.Integer)
-
+    due_date = db.Column(db.Date)
     monster_id = db.Column(db.Integer)
-    monster_color = db.Column(db.String(64))
-    is_finished = db.Column(db.Boolean)
+    is_finished = db.Column(db.Boolean, default=False)
 
 @app.route('/')
 def index():
-    name, id = whoami()
-    #SQLAlchemyを使ってassignmentsにログインしてるユーザーの
-    assignments = {}
+    api = api_get()
+    name =  api.me().name
+    if not name:
+        return redirect('twitter_auth')
+    user_id = api.me().id
+    unfinished = session.query(Assigment).filter(Assigment.is_finished==False, Assigment.user_id==user_id).order_by(Assigment.due_data).limit(3)
+    finished =　sesscion.query(Assigment).filter(Assigment.is_finished==True,Assigment.user_id==user_id).order_by(desc(Assigment.due_data)).limit(4)
+    """
+    unfinishedの出力
+    print([result.title for result in unfinished]) 出力はfor文使わんばエラーが出た気がする。
+    finishedの出力
+    print([result.is_finished for result in limit])
+    """
     return render_template('index.html', name=name, assignments=assignments)
 
 @app.route('/twitter_auth', methods=['GET'])
@@ -64,31 +74,36 @@ def callback():
 
 @app.route('/register', methods=['POST'])
 def register():
-    token = session.pop('request_token', None)
-    verifier = request.args.get('oauth_verifier')
-    if token is None or verifier is None:
-        return False  # 未認証ならFalseを返す
-    auth.request_token = token
-    try:
-        auth.get_access_token(verifier)
-    except tweepy.TweepError, e:
-        logging.error(str(e))
-        return {}
-    api = tweepy.API(auth)
-    api.update_status("テストツイート from Tweepy on Flask")
-    if request.form['title'] and request.form['content'] and request.files['image']:
-        monster_id = len(request.form['title']) % 5
-        newAssignment = Assignment()
+    api = api_get()
+
+    if request.form['title'] and request.form['due_date']:
+        title = request.form['title']
+        due_date = request.form['due_date']
+        seed(title + due_date)
+        random_num = randint(1, 100)
+        monster_id = 0 if random_num > 60 else 1 if 30 < random_num < 60 else 2 if 15 < random_num < 30 else 3 if 5 < random_num < 15 else 4
+        user_id = api.me().id
+        newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
-        if request.form['tweet_true'] == True:
-            api.update_with_media(filename, status="新しいモンスター{}と戦います。".format(request.form['title']))
+        if request.form['tweet'] == True:
+            api.update_with_media("{}.jpg".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
         return redirect('/')
-
     else:
         return render_template('error.html')
 
-def whoami():
+@app.route('/finished', methods=['POST'])
+    api = api_get()
+    if request.form['id']:
+        assignment = Assignment.query.filter_by(id=request.form["id"]).first()
+        assignment.is_finished = True
+        db_session.commit()
+    if request.form['tweet'] == True:
+        api.update_with_media("{}.jpg".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
+    return redirect('/')
+
+
+def api_get():
     token = session.pop('request_token', None)
     verifier = request.args.get('oauth_verifier')
     if token is None or verifier is None:
@@ -99,10 +114,7 @@ def whoami():
     except tweepy.TweepError, e:
         logging.error(str(e))
         return {}
-    api = tweepy.API(auth)
-    me = api.me()
-    return me.name, me.id
-
+    return tweepy.API(auth)
 
 @app.cli.command('initdb')
 def initdb_command():
