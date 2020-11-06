@@ -40,9 +40,9 @@ def index():
         return redirect('twitter_auth')
     user_id = api.me().id
 
-    unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_data).limit(3)
-    finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_data).limit(3)
-    #finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_data)).limit(4)
+    unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
+    finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
+    #finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_date)).limit(4)
     return render_template('ASSIGNMENT_QUEST.html', name=name, assignments=assignments, unfinished=unfinished, finished=finished)
 
 @app.route('/twitter_auth', methods=['GET'])
@@ -52,7 +52,7 @@ def twitter_auth():
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
         session['request_token'] = auth.request_token
-    except tweepy.TweepError, e:
+    except tweepy.TweepError as e:
         logging.error(str(e))
 
     # リダイレクト
