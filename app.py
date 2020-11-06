@@ -11,7 +11,8 @@ from urllib.parse import parse_qsl
 
 from random import randint, seed
 
-from sqlalchemy import desc
+from sqlalchemy import desc, create_engine
+from sqlalchemy.orm import Session
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -40,13 +41,13 @@ def index():
     name =  api.me().name
     user_id = api.me().id
 
-    session = scoped_session(
-　　　　sessionmaker(
-　　　　　　　　autocommit = False,
-　　　　　　　　autoflush = False,
-　　　　　　　　bind = ENGINE
-　　　　)
-    )
+    engine = create_engine(os.environ['PG_CREDENTIAL'])
+
+    # Sessionインスタンスの生成
+    session = Session(
+        autocommit = False,
+        autoflush = True,
+        bind = engine)
     Base = declarative_base()
     Base.query = session.query_property()
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
