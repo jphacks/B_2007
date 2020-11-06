@@ -27,12 +27,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 
 class Assignment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'assignments'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(64))
     user_id = db.Column(db.Integer)
     due_date = db.Column(db.Date)
     monster_id = db.Column(db.Integer)
     is_finished = db.Column(db.Boolean, default=False)
+
+    def __init__(self, title, user_id, due_date, monster_id):
+        self.title = title
+        self.user_id = user_id
+        self.due_date = due_date
+        self.monster_id = monster_id
 
 @app.route('/')
 def index():
