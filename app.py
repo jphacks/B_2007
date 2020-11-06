@@ -40,6 +40,15 @@ def index():
     name =  api.me().name
     user_id = api.me().id
 
+    session = scoped_session(
+　　　　sessionmaker(
+　　　　　　　　autocommit = False,
+　　　　　　　　autoflush = False,
+　　　　　　　　bind = ENGINE
+　　　　)
+    )
+    Base = declarative_base()
+    Base.query = session.query_property()
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
     finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
     #finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_date)).limit(4)
