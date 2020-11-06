@@ -110,7 +110,7 @@ def api_get():
     auth.request_token = token
     try:
         auth.get_access_token(verifier)
-    except tweepy.TweepError, e:
+    except tweepy.TweepError as e:
         logging.error(str(e))
         return {}
     return tweepy.API(auth)
