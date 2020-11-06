@@ -47,8 +47,9 @@ def index():
     if not api:
         return redirect('twitter_auth')
     name =  api.me().name
-    user_id = api.me().id
-
+    #user_id = api.me().id　ここ変更した
+    #一時的にuser_id = 3
+    user_id = 3
     engine = create_engine(os.environ['PG_CREDENTIAL'])
 
     # Sessionインスタンスの生成
@@ -68,11 +69,12 @@ def twitter_auth():
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
         sss['request_token'] = auth.request_token
+        return redirect(redirect_url)
     except tweepy.TweepError as e:
         logging.error(str(e))
+        return redirect("/")
 
     # リダイレクト
-    return redirect(redirect_url)
 
 
 @app.route('/callback')
@@ -89,7 +91,6 @@ def callback():
 @app.route('/register', methods=['POST'])
 def register():
     api = api_get()
-
     if request.form['title'] and request.form['due_date']:
         title = request.form['title']
         due_date = request.form['due_date']
