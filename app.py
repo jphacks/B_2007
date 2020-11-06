@@ -1,7 +1,8 @@
 import tweepy
 import urllib
 import os
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash
+from flask import session as sss
 from flask_sqlalchemy import SQLAlchemy
 
 from datetime import timedelta
@@ -59,7 +60,7 @@ def twitter_auth():
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
-        session['request_token'] = auth.request_token
+        sss['request_token'] = auth.request_token
     except tweepy.TweepError as e:
         logging.error(str(e))
 
@@ -111,7 +112,7 @@ def finished():
 
 
 def api_get():
-    token = session.pop('request_token', None)
+    token = sss.pop('request_token', None)
     verifier = request.args.get('oauth_verifier')
     if token is None or verifier is None:
         return False  # 未認証ならFalseを返す
