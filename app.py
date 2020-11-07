@@ -127,7 +127,7 @@ def api_get():
     #token = sss['request_token']
     verifier = request.cookies.get('verifier', None)
     print(verifier)
-    token = sss.get('request_token')
+    token = sss.pop('request_token')
     #sss.delete('request_token')
     if token is None or verifier is None:
         return False
