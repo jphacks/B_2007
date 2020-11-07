@@ -76,7 +76,7 @@ def twitter_auth():
 @app.route('/callback')
 def callback():
     try:
-        
+
         verifier = request.values.get('oauth_verifier', '')
         token = request.values.get('oauth_token', '')
         response = make_response(redirect('/'))
@@ -119,8 +119,7 @@ def finished():
         db_session.commit()
 
     if request.form['tweet'] == 'tweet':
-        #api.update_with_media("{}.png".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
-
+        api.update_with_media("{}.png".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
     return redirect('/')
 
 
