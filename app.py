@@ -20,7 +20,7 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 AT = os.environ['ACCESS_TOKEN']
 AS = os.environ['ACCESS_TOKEN_SECRET']
-
+auth = tweepy.OAuthHandler(AT, AS)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -61,7 +61,7 @@ def index():
 
 @app.route('/twitter_auth', methods=['GET'])
 def twitter_auth():
-    auth = tweepy.OAuthHandler(AT, AS)
+
     try:
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
