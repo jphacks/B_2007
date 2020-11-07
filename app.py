@@ -79,9 +79,9 @@ def callback():
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier', '')
         token = sss.get('request_token')
-        response = make_response(redirect('/'))
-        response.set_cookie('token', token)
-        response.set_cookie('verifier', verifier)
+        response = app.make_response(redirect('/'))
+        response.set_cookie('token', value=token)
+        response.set_cookie('verifier', value=verifier)
         return response
     except :
         import traceback
