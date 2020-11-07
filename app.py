@@ -88,7 +88,7 @@ def callback():
     except :
         import traceback
         traceback.print_exc()
-        return render("www.google.com")
+        return redirect("www.google.com")
 
 
 
