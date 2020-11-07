@@ -115,7 +115,7 @@ def register():
         db.session.commit()
 
         if request.form['tweet'] == "tweet":
-            api.update_with_media("{}.png".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
+            api.update_with_media("/static/image/{}.png".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
 
         return redirect('/')
     else:
