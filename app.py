@@ -136,7 +136,7 @@ def finished():
 def api_get():
     key = request.cookies.get('key', None)
     secret = request.cookies.get('secret', None)
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth = tweepy.OAuthHandler(AT, AS)
     auth.set_access_token(key, secret)
     return tweepy.API(auth)
 
