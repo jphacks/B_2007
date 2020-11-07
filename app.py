@@ -115,7 +115,7 @@ def register():
         db.session.commit()
 
         if request.form['tweet'] == "tweet":
-            api.update_with_media("static/image/{}.png".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
+            api.update_status("新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
 
         return redirect('/')
     else:
@@ -130,7 +130,7 @@ def finished():
         db_session.commit()
 
     if request.form['tweet'] == 'tweet':
-        api.update_with_media("static/image/{}.png".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
+        api.update_status("モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
     return redirect('/')
 
 
