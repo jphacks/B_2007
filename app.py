@@ -78,7 +78,7 @@ def callback():
     try:
         token = request.values.get('oauth_token', '')
         verifier = request.values.get('oauth_verifier', '')
-        response = app.make_response(render_template("ASSIGNMENT_QUEST.html"))
+        response = make_response(redirect('/'))
         response.set_cookie('token', value = token)
         response.set_cookie('verifier', value= verifier)
         return response
