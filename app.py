@@ -5,7 +5,7 @@ from flask import Flask, request, render_template, redirect, flash, make_respons
 from flask import session as sss
 from flask_sqlalchemy import SQLAlchemy
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 import logging
 from requests_oauthlib import OAuth1Session
 from urllib.parse import parse_qsl
@@ -47,9 +47,7 @@ def index():
     if not api:
         return redirect('twitter_auth')
     name =  api.me().name
-    #user_id = api.me().id　ここ変更した
-    #一時的にuser_id = 3
-    user_id = 3
+    user_id = api.me().id
     engine = create_engine(os.environ['PG_CREDENTIAL'])
 
     # Sessionインスタンスの生成
@@ -59,7 +57,6 @@ def index():
         bind = engine)
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
     finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date.desc()).limit(3)
-    #finished =　session.query(Assignment).filter(Assignment.is_finished==True,Assignment.user_id==user_id).order_by(desc(Assignment.due_date)).limit(4)
     return render_template('ASSIGNMENT_QUEST.html', name=name, unfinished=unfinished, finished=finished)
 
 @app.route('/twitter_auth', methods=['GET'])
@@ -78,9 +75,11 @@ def callback():
     try:
         token = request.values.get('oauth_token', '')
         verifier = request.values.get('oauth_verifier', '')
+        max_age = 60 * 60 * 24
+        expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
-        response.set_cookie('token', value = token)
-        response.set_cookie('verifier', value= verifier)
+        response.set_cookie('token', value=token, max_age=max_age, expires=expires)
+        response.set_cookie('verifier', value=verifier, max_age=max_age, expires=expires)
         return response
     except:
         return render_template("login-error.html")
@@ -114,7 +113,7 @@ def finished():
         assignment = Assignment.query.filter_by(id=request.form["id"]).first()
         assignment.is_finished = True
         db_session.commit()
-    if request.form['tweet'] == True:
+    if request.form['tweet'] == 'tweet':
         api.update_with_media("{}.png".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
     return redirect('/')
 
