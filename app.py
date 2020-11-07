@@ -59,7 +59,7 @@ def index():
         bind = engine)
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
     finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date.desc()).limit(3)
-    return render_template('ASSIGNMENT_QUEST.html', name=name, unfinished=unfinished, finished=finished)
+    return render_template('ASSIGNMENT_QUEST.html',  unfinished=unfinished, finished=finished)
 """
 @app.route('/twitter_auth', methods=['GET'])
 def twitter_auth():
