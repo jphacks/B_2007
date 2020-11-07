@@ -81,8 +81,8 @@ def callback():
         max_age = 60 * 60 * 24
         expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
-        response.set_cookie('consumer_key', value=consumer_key, max_age=max_age, expires=expires)
-        response.set_cookie('consumer_secret', value=consumer_secret, max_age=max_age, expires=expires)
+        response.set_cookie('token', value=token, max_age=max_age, expires=expires)
+        response.set_cookie('verifier', value=verifier, max_age=max_age, expires=expires)
         return response
     except:
         return render_template("login-error.html")
@@ -122,11 +122,8 @@ def finished():
 
 
 def api_get():
-    consumer_key = request.cookies.get('consumer_key', None)
-    consumer_secret = request.cookies.get('consumer_secret', None)
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    token = sss.get('request_token')
-    sss.delete('request_token')
+    token = request.cookies.get('token', None)
+    verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
         return False
     auth = tweepy.OAuthHandler(AT, AS)
