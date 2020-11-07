@@ -81,7 +81,7 @@ def callback():
         print("verifier is:", verifier)
         token = sss['request_token']
         print("token is: ", token)
-        response = app.make_response(redirect('/'))
+        response = make_response(redirect('/'))
         response.set_cookie('token', value=token)
         response.set_cookie('verifier', value=verifier)
         return response
