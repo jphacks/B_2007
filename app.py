@@ -74,8 +74,8 @@ def twitter_auth():
 @app.route('/callback')
 def callback():
     try:
-        token = request.values.get('oauth_token', '')
-        verifier = request.values.get('oauth_verifier', '')
+        token = request.args.get('oauth_token', '')
+        verifier = request.args.get('oauth_verifier', '')
         max_age = 60 * 60 * 24
         expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
