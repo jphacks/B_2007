@@ -20,7 +20,7 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 AT = os.environ['ACCESS_TOKEN']
 AS = os.environ['ACCESS_TOKEN_SECRET']
-auth = tweepy.OAuthHandler(AT, AS)
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -61,6 +61,7 @@ def index():
 
 @app.route('/twitter_auth', methods=['GET'])
 def twitter_auth():
+    auth = tweepy.OAuthHandler(AT, AS)
     try:
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
@@ -74,8 +75,9 @@ def twitter_auth():
 @app.route('/callback')
 def callback():
     try:
-        token = request.values.get('oauth_token', '')
-        verifier = request.values.get('oauth_verifier', '')
+        #consumer_key = request.args.get('oauth_token', '')
+        verifier = request.args.get('oauth_verifier', '')
+        token = sss.get('request_token')
         max_age = 60 * 60 * 24
         expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
@@ -123,7 +125,8 @@ def api_get():
     token = request.cookies.get('token', None)
     verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
-        return False  # 未認証ならFalseを返す
+        return False
+    auth = tweepy.OAuthHandler(AT, AS)
     auth.request_token = token
     try:
         auth.get_access_token(verifier)
