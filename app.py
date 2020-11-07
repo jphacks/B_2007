@@ -124,7 +124,8 @@ def finished():
 def api_get():
     #token = sss['request_token']
     verifier = request.cookies.get('verifier', None)
-    token = request.cookies.get('token', None)
+    token = sss.get('request_token')
+    #sss.delete('request_token')
     if token is None or verifier is None:
         return False
     auth = tweepy.OAuthHandler(token, verifier)
