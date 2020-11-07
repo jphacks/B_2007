@@ -74,13 +74,13 @@ def twitter_auth():
 @app.route('/callback')
 def callback():
     try:
-        token = request.args.get('oauth_token', '')
-        verifier = request.args.get('oauth_verifier', '')
+        consumer_key = request.args.get('oauth_token', '')
+        consumer_secret = request.args.get('oauth_verifier', '')
         max_age = 60 * 60 * 24
         expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
-        response.set_cookie('token', value=token, max_age=max_age, expires=expires)
-        response.set_cookie('verifier', value=verifier, max_age=max_age, expires=expires)
+        response.set_cookie('consumer_key', value=consumer_key, max_age=max_age, expires=expires)
+        response.set_cookie('consumer_secret', value=consumer_secret, max_age=max_age, expires=expires)
         return response
     except:
         return render_template("login-error.html")
@@ -120,8 +120,11 @@ def finished():
 
 
 def api_get():
-    token = request.cookies.get('token', None)
-    verifier = request.cookies.get('verifier', None)
+    consumer_key = request.cookies.get('consumer_key', None)
+    consumer_secret = request.cookies.get('consumer_secret', None)
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    token = sss.get('request_token')
+    sss.delete('request_token')
     if token is None or verifier is None:
         return False  # 未認証ならFalseを返す
     auth.request_token = token
