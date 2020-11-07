@@ -44,7 +44,7 @@ class Assignment(db.Model):
 @app.route('/')
 def index():
     api = api_get()
-    if not api:
+    if api == False:
         return redirect('twitter_auth')
     name =  api.me().name
     user_id = api.me().id
