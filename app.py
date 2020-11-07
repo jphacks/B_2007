@@ -79,11 +79,9 @@ def callback():
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier', '')
         token = sss.get('request_token')
-        max_age = 60 * 60 * 24
-        expires = int(datetime.now().timestamp()) + max_age
         response = make_response(redirect('/'))
-        response.set_cookie('token', value=token, max_age=max_age, expires=expires)
-        response.set_cookie('verifier', value=verifier, max_age=max_age, expires=expires)
+        response.set_cookie('token', value=token)
+        response.set_cookie('verifier', value=verifier)
         return response
     except :
         import traceback
