@@ -46,8 +46,8 @@ def index():
     api = api_get()
     if api == False:
         return redirect('twitter_auth')
-    name =  api.me().name
-    user_id = api.me().id
+
+    user_id = 3 #api.me().id
     engine = create_engine(os.environ['PG_CREDENTIAL'])
 
     # Sessionインスタンスの生成
@@ -108,7 +108,8 @@ def register():
         seed(title + due_date)
         random_num = randint(1, 100)
         monster_id = 0 if random_num > 60 else 1 if 30 < random_num < 60 else 2 if 15 < random_num < 30 else 3 if 5 < random_num < 15 else 4
-        user_id = api.me().id
+        #user_id = api.me().id
+        user_id = 3
         newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
