@@ -1,7 +1,7 @@
 import tweepy
 import urllib
 import os
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, make_response
 from flask import session as sss
 from flask_sqlalchemy import SQLAlchemy
 
@@ -68,22 +68,20 @@ def twitter_auth():
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
-        sss['request_token'] = auth.request_token
         return redirect(redirect_url)
     except tweepy.TweepError as e:
         logging.error(str(e))
         return redirect("/")
-
-    # リダイレクト
-
 
 @app.route('/callback')
 def callback():
     try:
         token = request.values.get('oauth_token', '')
         verifier = request.values.get('oauth_verifier', '')
-        #flash('認証に成功しました。')
-        return render_template("ASSIGNMENT_QUEST.html", token=token, verifier=verifier)
+        response = app.make_response(redirect('/'))
+        response.set_cookie('token', value = token)
+        response.set_cookie('verifier', value= verifier)
+        return response
     except:
         return render_template("login-error.html")
 
@@ -122,8 +120,8 @@ def finished():
 
 
 def api_get():
-    token = sss.pop('request_token', None)
-    verifier = request.args.get('oauth_verifier')
+    token = request.cookies.get('token', None)
+    verifier = request.cookies.get('oauth_token_secret', None)
     if token is None or verifier is None:
         return False  # 未認証ならFalseを返す
     auth.request_token = token
@@ -131,7 +129,7 @@ def api_get():
         auth.get_access_token(verifier)
     except tweepy.TweepError as e:
         logging.error(str(e))
-        return {}
+        return 0
     return tweepy.API(auth)
 
 @app.cli.command('initdb')
