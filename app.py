@@ -78,7 +78,7 @@ def callback():
     try:
         token = request.values.get('oauth_token', '')
         verifier = request.values.get('oauth_verifier', '')
-        response = app.make_response(redirect('/'))
+        response = app.make_response(render_template("ASSIGNMENT_QUEST.html"))
         response.set_cookie('token', value = token)
         response.set_cookie('verifier', value= verifier)
         return response
@@ -121,7 +121,7 @@ def finished():
 
 def api_get():
     token = request.cookies.get('token', None)
-    verifier = request.cookies.get('oauth_token_secret', None)
+    verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
         return False  # 未認証ならFalseを返す
     auth.request_token = token
