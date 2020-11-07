@@ -43,13 +43,11 @@ class Assignment(db.Model):
 
 @app.route('/')
 def index():
-    """
     api = api_get()
     if api == False:
         return redirect('twitter_auth')
     name =  api.me().name
-    """
-    user_id = 3 #user_id = api.me().id
+    user_id = api.me().id
     engine = create_engine(os.environ['PG_CREDENTIAL'])
 
     # Sessionインスタンスの生成
@@ -60,7 +58,7 @@ def index():
     unfinished = session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date).limit(3)
     finished =session.query(Assignment).filter(Assignment.is_finished==False, Assignment.user_id==user_id).order_by(Assignment.due_date.desc()).limit(3)
     return render_template('ASSIGNMENT_QUEST.html',  unfinished=unfinished, finished=finished)
-"""
+
 @app.route('/twitter_auth', methods=['GET'])
 def twitter_auth():
 
@@ -78,7 +76,7 @@ def twitter_auth():
 @app.route('/callback')
 def callback():
     try:
-        #consumer_key = request.args.get('oauth_token', '')
+        
         verifier = request.values.get('oauth_verifier', '')
         token = request.values.get('oauth_token', '')
         response = make_response(redirect('/'))
@@ -89,43 +87,43 @@ def callback():
         import traceback
         traceback.print_exc()
         return redirect("https://www.google.com")
-"""
+
 
 @app.route('/register', methods=['POST'])
 def register():
-    #api = api_get()
+    api = api_get()
     if request.form['title'] and request.form['due_date']:
         title = request.form['title']
         due_date = request.form['due_date']
         seed(title + due_date)
         random_num = randint(1, 100)
         monster_id = 0 if random_num > 60 else 1 if 30 < random_num < 60 else 2 if 15 < random_num < 30 else 3 if 5 < random_num < 15 else 4
-        user_id = 3 #user_id = api.me().id
+        user_id = api.me().id
         newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
-        """
+
         if request.form['tweet'] == "tweet":
             api.update_with_media("{}.png".format(monster_id), status="新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
-        """
+
         return redirect('/')
     else:
         return render_template('login-error.html')
 
 @app.route('/finished', methods=['POST'])
 def finished():
-    #api = api_get()
+    api = api_get()
     if request.form['id']:
         assignment = Assignment.query.filter_by(id=request.form["id"]).first()
         assignment.is_finished = True
         db_session.commit()
 
-    #if request.form['tweet'] == 'tweet':
+    if request.form['tweet'] == 'tweet':
         #api.update_with_media("{}.png".format(assignment.monster_id), status="モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
 
     return redirect('/')
 
-"""
+
 def api_get():
     #token = sss['request_token']
     verifier = request.cookies.get('verifier', None)
@@ -142,7 +140,7 @@ def api_get():
         print("error at 130")
         return 0
     return tweepy.API(auth)
-"""
+
 @app.cli.command('initdb')
 def initdb_command():
     db.create_all()
