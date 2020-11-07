@@ -69,7 +69,7 @@ def twitter_auth():
         return redirect(redirect_url)
     except tweepy.TweepError as e:
         logging.error(str(e))
-        return redirect("/")
+        return redirect("https://www.google.com")
 
 @app.route('/callback')
 def callback():
@@ -86,6 +86,7 @@ def callback():
         return render_template("login-error.html")
 
 
+
 @app.route('/register', methods=['POST'])
 def register():
     api = api_get()
@@ -95,8 +96,7 @@ def register():
         seed(title + due_date)
         random_num = randint(1, 100)
         monster_id = 0 if random_num > 60 else 1 if 30 < random_num < 60 else 2 if 15 < random_num < 30 else 3 if 5 < random_num < 15 else 4
-        #user_id = api.me().id
-        user_id = 3
+        user_id = api.me().id
         newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
@@ -129,6 +129,7 @@ def api_get():
         auth.get_access_token(verifier)
     except tweepy.TweepError as e:
         logging.error(str(e))
+        print("error at 130")
         return 0
     return tweepy.API(auth)
 
