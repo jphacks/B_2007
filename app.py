@@ -66,7 +66,7 @@ def twitter_auth():
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
-        sss['request_token'] = auth.request_token
+        sss.set('request_token', auth.request_token['oauth_token'])
         return redirect(redirect_url)
     except:
         import traceback
@@ -78,10 +78,20 @@ def callback():
     try:
 
         verifier = request.values.get('oauth_verifier', '')
-        token = request.values.get('oauth_token', '')
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        token = session.get('request_token')
+        session.delete('request_token')
+        auth.request_token = { 'oauth_token' : token, 'oauth_token_secret' : verifier }
+
+        try:
+            auth.get_access_token(verifier)
+        except tweepy.TweepError:
+            print('Error! Failed to get access token.')
+        key = auth.access_token
+        secret = auth.access_token_secret
         response = make_response(redirect('/'))
-        response.set_cookie('verifier', value=verifier)
-        response.set_cookie('token', value=token)
+        response.set_cookie('key', value=key)
+        response.set_cookie('secret', value=secret)
         return response
     except :
         import traceback
@@ -124,20 +134,10 @@ def finished():
 
 
 def api_get():
-    #token = sss['request_token']
-    verifier = request.cookies.get('verifier', None)
-    print(verifier)
-    token = sss.pop('request_token')
-    #sss.delete('request_token')
-    if token is None or verifier is None:
-        return False
-    auth.request_token = { 'oauth_token' : token, 'oauth_token_secret' : verifier }
-    try:
-        auth.get_access_token(verifier)
-    except tweepy.TweepError as e:
-        logging.error(str(e))
-        print("error at 130")
-        return 0
+    key = request.cookies.get('key', None)
+    secret = request.cookies.get('secret', None)
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(key, secret)
     return tweepy.API(auth)
 
 @app.cli.command('initdb')
