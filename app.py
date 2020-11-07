@@ -82,14 +82,16 @@ def callback():
         token = sss.pop('request_token', None)
         print("token is: ", token)
         response = make_response(redirect('/'))
+        print("1---1")
         response.set_cookie('token', value=token)
+        print("2---2")
         response.set_cookie('verifier', value=verifier)
+        print("3---3")
         return response
     except :
         import traceback
         traceback.print_exc()
         return redirect("https://www.google.com")
-
 
 
 @app.route('/register', methods=['POST'])
