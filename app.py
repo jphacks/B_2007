@@ -113,10 +113,10 @@ def register():
         newAssignment = Assignment(title, user_id, due_date, monster_id)
         db.session.add(newAssignment)
         db.session.commit()
-
+"""
         if request.form['tweet'] == "tweet":
             api.update_status("新しいモンスター「{}」と戦います！ #AssignmentQuest".format(title))
-
+"""
         return redirect('/')
     else:
         return render_template('login-error.html')
@@ -128,9 +128,10 @@ def finished():
         assignment = Assignment.query.filter_by(id=request.form["id"]).first()
         assignment.is_finished = True
         db_session.commit()
-
+"""
     if request.form['tweet'] == 'tweet':
         api.update_status("モンスター「{}」を蹴散らしました！ #AssignmentQuest".format(assignment.title))
+"""
     return redirect('/')
 
 
