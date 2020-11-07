@@ -65,9 +65,10 @@ def twitter_auth():
     try:
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
-        # 認証後に必要な request_token を session に保存
-        sss['request_token'] = auth.request_token
-        return redirect(redirect_url)
+        # 認証後に必要な request_token を cookieへ
+        response = make_response(redirect(redirect_url))
+        response.set_cookie('token', value=auth.request_token)
+        return response
     except:
         import traceback
         traceback.print_exc()
@@ -120,7 +121,7 @@ def finished():
 
 
 def api_get():
-    token = sss['request_token']
+    token = request.cookies.get('token', None)
     verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
         return False
