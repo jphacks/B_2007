@@ -68,8 +68,9 @@ def twitter_auth():
         # 認証後に必要な request_token を session に保存
         sss['request_token'] = auth.request_token
         return redirect(redirect_url)
-    except tweepy.TweepError as e:
-        logging.error(str(e))
+    except:
+        import traceback
+        traceback.print_exc()
         return redirect("https://www.google.com")
 
 @app.route('/callback')
@@ -84,8 +85,10 @@ def callback():
         response.set_cookie('token', value=token, max_age=max_age, expires=expires)
         response.set_cookie('verifier', value=verifier, max_age=max_age, expires=expires)
         return response
-    except:
-        return render_template("login-error.html")
+    except :
+        import traceback
+        traceback.print_exc()
+        return render("www.google.com")
 
 
 
