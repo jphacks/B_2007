@@ -120,7 +120,7 @@ def finished():
 
 
 def api_get():
-    token = sss.pop('request_token', None)
+    token = sss['request_token']
     verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
         return False
