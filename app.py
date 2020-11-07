@@ -78,14 +78,8 @@ def callback():
     try:
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier')
-        print("verifier is:", verifier)
-        token = sss.pop('request_token', None)
-        print("token is: ", token)
         response = make_response(redirect('/'))
         response.set_cookie('verifier', value=verifier)
-        print("2---2")
-        response.set_cookie('token', value=token)
-        print("3---3")
         return response
     except :
         import traceback
@@ -126,7 +120,7 @@ def finished():
 
 
 def api_get():
-    token = request.cookies.get('token', None)
+    token = sss.pop('request_token', None)
     verifier = request.cookies.get('verifier', None)
     if token is None or verifier is None:
         return False
