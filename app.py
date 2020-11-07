@@ -65,10 +65,9 @@ def twitter_auth():
     try:
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
-        # 認証後に必要な request_token を cookieへ
-        response = make_response(redirect(redirect_url))
-        response.set_cookie('token', value=auth.request_token)
-        return response
+        # 認証後に必要な request_token を session に保存
+        sss['request_token'] = auth.request_token
+        return redirect(redirect_url)
     except:
         import traceback
         traceback.print_exc()
@@ -79,8 +78,10 @@ def callback():
     try:
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier')
+        token = request.args.get('oauth_token')
         response = make_response(redirect('/'))
         response.set_cookie('verifier', value=verifier)
+        response.set_cookie('token', value=token)
         return response
     except :
         import traceback
@@ -121,12 +122,14 @@ def finished():
 
 
 def api_get():
-    token = request.cookies.get('token', None)
+    #token = sss['request_token']
     verifier = request.cookies.get('verifier', None)
+    token = request.cookies.get('token', None)
     if token is None or verifier is None:
         return False
     auth = tweepy.OAuthHandler(AT, AS)
-    auth.request_token = token
+    auth.set_access_token(token, verifier)
+    #auth.request_token = token
     try:
         auth.get_access_token(verifier)
     except tweepy.TweepError as e:
