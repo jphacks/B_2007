@@ -127,8 +127,8 @@ def api_get():
     token = request.cookies.get('token', None)
     if token is None or verifier is None:
         return False
-    auth = tweepy.OAuthHandler(AT, AS)
-    auth.set_access_token(token, verifier)
+    auth = tweepy.OAuthHandler(token, verifier)
+    auth.set_access_token(AT, AS)
     #auth.request_token = token
     try:
         auth.get_access_token(verifier)
