@@ -65,6 +65,7 @@ def twitter_auth():
         # 連携アプリ認証用の URL を取得
         redirect_url = auth.get_authorization_url()
         # 認証後に必要な request_token を session に保存
+        sss['request_token'] = auth.request_token
         return redirect(redirect_url)
     except tweepy.TweepError as e:
         logging.error(str(e))
