@@ -79,7 +79,7 @@ def callback():
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier', '')
         print("verifier is:", verifier)
-        token = sss.get('request_token')
+        token = session.pop('request_token', None)
         print("token is: ", token)
         response = app.make_response(redirect('/'))
         response.set_cookie('token', value=token)
