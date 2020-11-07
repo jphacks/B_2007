@@ -29,7 +29,7 @@ db = SQLAlchemy(app)
 class Assignment(db.Model):
     __tablename__ = 'assignments'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.Text)　#String(64)
+    title = db.Column(db.String(64))
     user_id = db.Column(db.Integer)
     due_date = db.Column(db.Date)
     monster_id = db.Column(db.Integer)
@@ -79,11 +79,11 @@ def callback():
         #consumer_key = request.args.get('oauth_token', '')
         verifier = request.args.get('oauth_verifier')
         print("verifier is:", verifier)
-        token = sss.pop('request_token', None)
+        token = sss['request_token']
         print("token is: ", token)
         response = app.make_response(redirect('/'))
         response.set_cookie('token', value=token)
-        #response.set_cookie('verifier', value=verifier)
+        response.set_cookie('verifier', value=verifier)
         return response
     except :
         import traceback
