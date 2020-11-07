@@ -93,7 +93,7 @@ def callback():
 
 @app.route('/register', methods=['POST'])
 def register():
-    api = api_get()
+    #api = api_get()
     if request.form['title'] and request.form['due_date']:
         title = request.form['title']
         due_date = request.form['due_date']
@@ -114,7 +114,7 @@ def register():
 
 @app.route('/finished', methods=['POST'])
 def finished():
-    api = api_get()
+    #api = api_get()
     if request.form['id']:
         assignment = Assignment.query.filter_by(id=request.form["id"]).first()
         assignment.is_finished = True
