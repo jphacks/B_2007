@@ -77,8 +77,8 @@ def twitter_auth():
 def callback():
     try:
         #consumer_key = request.args.get('oauth_token', '')
-        verifier = request.args.get('oauth_verifier')
-        token = request.args.get('oauth_token')
+        verifier = request.values.get('oauth_verifier', '')
+        token = request.values.get('oauth_token', '')
         response = make_response(redirect('/'))
         response.set_cookie('verifier', value=verifier)
         response.set_cookie('token', value=token)
